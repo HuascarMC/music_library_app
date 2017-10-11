@@ -1,7 +1,7 @@
 require_relative('../db/sql_runner.rb')
 require('pg')
 class Artist
-  attr_reader :id, :name
+  attr_accessor :id, :name
 
   def initialize(options)
     @id = options['id'].to_i if options['id']
@@ -11,7 +11,7 @@ class Artist
   def save()
     sql = "INSERT INTO artists (name) VALUES ($1) RETURNING *"
     values = [@name]
-    @id = SqlRunner.run(sql, values)[0]['id']
+    @id = SqlRunner.run(sql, values)[0]['id'].to_i
   end
 
   def self.all()
@@ -20,5 +20,13 @@ class Artist
     artists = SqlRunner.run(sql, values)
     classified_artists = artists.map {|artist| Artist.new(artist)}
     return classified_artists
+  end
+
+  def show_albums()
+    sql = "SELECT * FROM ALBUMS WHERE id = $1"
+    values = [@aid]
+    album = SqlRunner.run(sql, values)
+    classified_album = album.map {|this_album| Album.new(this_album)}
+    return classified_album
   end
 end
