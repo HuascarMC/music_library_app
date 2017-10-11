@@ -8,7 +8,7 @@ class Album
     @id = options['id'].to_i if options['id']
     @title = options['title']
     @genre = options['genre']
-    @artist_id = options['artist_id'].to_i()
+    @artst_id = options['artist_id'].to_i()
   end
 
   def save()
@@ -40,6 +40,14 @@ class Album
   def delete()
     sql = "DELETE FROM albums WHERE id = $1"
     values = [@id]
-    SqlRunner.run(sql, values)    
+    SqlRunner.run(sql, values)
+  end
+
+  def self.find(id)
+    sql = "DELETE FROM albums WHERE id = $1"
+    values = [@id]
+    album_array = Album.new(SqlRunner.run(sql, values))
+    classified_album = album_array.map {|album| Album.new(album)}
+    return classified_album
   end
 end

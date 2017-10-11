@@ -40,4 +40,12 @@ class Artist
     values = [@id]
     SqlRunner.run(sql, values)
   end
+
+  def self.find(id)
+    sql = "SELECT * FROM artists WHERE id = $1"
+    values = [@id]
+    artist_array = (SqlRunner.run(sql, values))
+    classified_album = artist_array.map {|artist| Artist.new(artist)}
+    return classified_album
+  end
 end
