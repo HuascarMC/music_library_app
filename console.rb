@@ -7,7 +7,7 @@ artist_1 = Artist.new ({
   })
 
 artist_2 = Artist.new ({
-  'name' => 'Uncle Sam'
+  'name' => 'Uncle Sam',
   })
 
 artist_1.save()
@@ -23,6 +23,12 @@ album_2 = Album.new ({
   'title' => 'McDonald',
   'genre' => 'Fries',
   'artist' => artist_2.id
+  })
+
+album_3 = Album.new ({
+  'title' => 'The farmer\'s wife',
+  'genre' => 'Heavey metal',
+  'artist' => artist_1.id
   })
 
 album_1.save()
