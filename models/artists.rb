@@ -23,9 +23,21 @@ class Artist
     return classified_artists
   end
 
-  # def show_albums()
-  #   sql = "SELECT * FROM ALBUMS WHERE id = $1"
-  #   values = [@id]
-  #    Album.new(SqlRunner.run(sql, values)[0])
-  # end
+  def show_albums()
+    sql = "SELECT * FROM ALBUMS WHERE id = $1"
+    values = [@id]
+     Album.new(SqlRunner.run(sql, values)[0])
+  end
+
+  def update()
+    sql = "UPDATE artists SET (name) = ($1) WHERE id = $2"
+    values = [@name, @id]
+    SqlRunner.run(sql, values)
+  end
+  #
+  # def self.delete(id)
+  #   sql = "DELETE FROM artists albums WHERE id = $1"
+  #   values = [id]
+  #   SqlRunner.run(s
+
 end
