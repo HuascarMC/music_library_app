@@ -8,7 +8,7 @@ class SqlRunner
       host: 'localhost'
       })
       db.prepare("query", sql)
-      result = db.exec_prepare("query", values)
+      result = db.exec_prepared("query", values)
     ensure
       db.close
     end

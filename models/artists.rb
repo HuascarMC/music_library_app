@@ -1,3 +1,4 @@
+require_relative('../db/sql_runner.rb')
 require('pg')
 class Artist
   attr_reader :id, :name
@@ -8,7 +9,7 @@ class Artist
   end
 
   def save()
-    sql = "INSERT INTO artists (artist) VALUES ($1) RETURNING *"
+    sql = "INSERT INTO artists (name) VALUES ($1) RETURNING *"
     values = [@name]
     @id = SqlRunner.run(sql, values)[0]['id']
   end
