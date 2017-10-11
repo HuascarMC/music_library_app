@@ -1,3 +1,4 @@
+require_relative('albums.rb')
 require_relative('../db/sql_runner.rb')
 require('pg')
 class Artist
@@ -22,11 +23,9 @@ class Artist
     return classified_artists
   end
 
-  def show_albums()
-    sql = "SELECT * FROM ALBUMS WHERE id = $1"
-    values = [@aid]
-    album = SqlRunner.run(sql, values)
-    classified_album = album.map {|this_album| Album.new(this_album)}
-    return classified_album
-  end
+  # def show_albums()
+  #   sql = "SELECT * FROM ALBUMS WHERE id = $1"
+  #   values = [@id]
+  #    Album.new(SqlRunner.run(sql, values)[0])
+  # end
 end

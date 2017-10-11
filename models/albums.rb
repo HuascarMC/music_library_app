@@ -1,3 +1,5 @@
+require_relative('artists.rb')
+require_relative('../db/sql_runner.rb')
 require('pg')
 class Album
   attr_accessor :id, :title, :genre, :artist_id
@@ -6,7 +8,7 @@ class Album
     @id = options['id'].to_i if options['id']
     @title = options['title']
     @genre = options['genre']
-    @artist_id = options['artist_id'].to_i
+    @artist_id = options['artist_id'].to_i()
   end
 
   def save()
@@ -23,11 +25,9 @@ class Album
     return classified_albums
   end
 
-  def show_albums()
-    sql = "SELECT * FROM ALBUMS WHERE artist_id = $1"
+  def show_artist()
+    sql = "SELECT * FROM artists WHERE id = $1"
     values = [@artist_id]
-    album = SqlRunner.run(sql, values)
-    classified_album = album.map {|this_album| Album.new(this_album)}
-    return classified_album
+    Artist.new(SqlRunner.run(sql, values)[0])
   end
 end
