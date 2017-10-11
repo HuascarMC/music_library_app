@@ -2,13 +2,14 @@ require_relative('artists.rb')
 require_relative('../db/sql_runner.rb')
 require('pg')
 class Album
-  attr_accessor :id, :title, :genre, :artist_id
+  attr_accessor :id, :title, :genre
+  attr_reader :artist_id
 
   def initialize(options)
     @id = options['id'].to_i if options['id']
     @title = options['title']
     @genre = options['genre']
-    @artst_id = options['artist_id'].to_i()
+    @artist_id = options['artist_id'].to_i()
   end
 
   def save()
@@ -44,10 +45,10 @@ class Album
   end
 
   def self.find(id)
-    sql = "DELETE FROM albums WHERE id = $1"
-    values = [@id]
-    album_array = Album.new(SqlRunner.run(sql, values))
+    sql = "SELECT * FROM albums WHERE id = $1"
+    values = [id]
+    album_array = SqlRunner.run(sql, values)
     classified_album = album_array.map {|album| Album.new(album)}
-    return classified_album
+    return classified_album[0]
   end
 end

@@ -1,6 +1,7 @@
 require_relative('albums.rb')
 require_relative('../db/sql_runner.rb')
 require('pg')
+
 class Artist
   attr_accessor :id, :name
 
@@ -43,9 +44,9 @@ class Artist
 
   def self.find(id)
     sql = "SELECT * FROM artists WHERE id = $1"
-    values = [@id]
-    artist_array = (SqlRunner.run(sql, values))
-    classified_album = artist_array.map {|artist| Artist.new(artist)}
-    return classified_album
+    values = [id]
+    artist_array = SqlRunner.run(sql, values)
+    classified_artist = artist_array.map {|artist| Artist.new(artist)}
+    return classified_artist[0]
   end
 end
