@@ -3,7 +3,8 @@ require_relative('../db/sql_runner.rb')
 require('pg')
 
 class Artist
-  attr_accessor :id, :name
+  attr_reader :id
+  attr_accessor :name
 
   def initialize(options)
     @id = options['id'].to_i if options['id']
@@ -45,8 +46,16 @@ class Artist
   def self.find(id)
     sql = "SELECT * FROM artists WHERE id = $1"
     values = [id]
-    artist_array = SqlRunner.run(sql, values)
-    classified_artist = artist_array.map {|artist| Artist.new(artist)}
-    return classified_artist[0]
+    return  SqlRunner.run(sql, values)[0]
+    # classified_artist = artist_array.map {|artist| Artist.new(artist)}
+    # return classified_artist[0]
+  end
+
+# Another way to update
+
+  def self.update(name, id)
+    sql = "UPDATE artists SET (name) = ($1) WHERE id = $2"
+    values = [name, id]
+    SqlRunner.run(sql, values)
   end
 end

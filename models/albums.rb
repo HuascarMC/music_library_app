@@ -2,8 +2,8 @@ require_relative('artists.rb')
 require_relative('../db/sql_runner.rb')
 require('pg')
 class Album
-  attr_accessor :id, :title, :genre
-  attr_reader :artist_id
+  attr_accessor :id, :artist_id
+  attr_reader :title, :genre
 
   def initialize(options)
     @id = options['id'].to_i if options['id']
@@ -47,8 +47,13 @@ class Album
   def self.find(id)
     sql = "SELECT * FROM albums WHERE id = $1"
     values = [id]
-    album_array = SqlRunner.run(sql, values)
-    classified_album = album_array.map {|album| Album.new(album)}
-    return classified_album[0]
+    SqlRunner.run(sql, values)[0]
+    # classified_album = album_array.map {|album| Album.new(album)}
+    # return classified_album[0]
   end
 end
+
+# Index out of range, make sure SQL is RETURNING something.
+# Implicit conversion of string into integer, make sure everything is turned '.to_i' where it has to.
+#
+#
